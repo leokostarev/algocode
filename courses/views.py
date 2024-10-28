@@ -87,7 +87,8 @@ class CourseView(View):
 
 class StandingsView(View):
     def get(self, request, standings_label, contest_id=-1):
-        standings = get_object_or_404(Standings, label=standings_label)
+        # standings = get_object_or_404(Standings, label=standings_label)
+        from create_standings_polyfill import standings
         return render(
             request,
             'standings.html',
@@ -100,6 +101,8 @@ class StandingsView(View):
 
 class StandingsDataView(View):
     def get(self, request, standings_label):
+        from create_standings_polyfill import get_data
+        return JsonResponse(get_data())
         standings = get_object_or_404(Standings, label=standings_label)
 
         users_data, contests = get_standings_data(standings)
