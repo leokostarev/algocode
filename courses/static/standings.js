@@ -616,3 +616,23 @@ var buildStandings = function() {
         }, 10);
     }
 };
+
+// DELME: this block is for local development!
+function timeExecution(name, f) {
+    return function () {
+        console.log(`Starting ${name}:`);
+        let start = new Date().getTime();
+        f(...arguments);
+        let end = new Date().getTime();
+        console.log(`Complected ${name} in ${end - start} ms`);
+    };
+}
+
+
+calculateInformation = timeExecution("calculateInformation", calculateInformation);
+calculateMark = timeExecution("calculateMark", calculateMark);
+addHeader = timeExecution("addHeader", addHeader);
+addBody = timeExecution("addBody", addBody);
+fixColumnWidths = timeExecution("fixColumnWidths", fixColumnWidths);
+buildStandings = timeExecution("buildStandings", buildStandings);
+// DELME

@@ -1,3 +1,5 @@
+import interceptors.intercept_standings
+
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
@@ -9,9 +11,9 @@ urlpatterns = [
     path('', MainView.as_view() if DEFAULT_HOME == "main" else CourseView.as_view() if DEFAULT_HOME == "course" else PageView.as_view(), name='main'),
     path('main/<int:main_id>/', MainView.as_view(), name='main'),
     path('page/<str:page_label>/', PageView.as_view(), name='page'),
-    path('standings/<str:standings_label>/', (StandingsView.as_view()), name='standings'),
+    path('standings/<str:standings_label>/', cache_page(0)(StandingsView.as_view()), name='standings'),
     path('standings/<str:standings_label>/<int:contest_id>/', cache_page(0)(StandingsView.as_view()), name='standings'),
-    path('standings_data/<str:standings_label>/', (StandingsDataView.as_view()), name='standings_data'),
+    path('standings_data/<str:standings_label>/', cache_page(0)(StandingsDataView.as_view()), name='standings_data'),
     path('serve_control/', ServeControl.as_view(), name='serve_control'),
     path('serve_control/restart_ejudge/', RestartEjudge.as_view(), name='restart_ejudge'),
     path('serve_control/create_valuer/', CreateValuer.as_view(), name='create_valuer'),
